@@ -3,12 +3,10 @@ import React from "react";
 const Guest = ({ guest, onDelete, onCheckedIn }) => {
   return (
     <tr key={guest.id}>
-      <td style={{ cursor: "pointer" }} onClick={() => onCheckedIn(guest.id)}>
-        {guest.name}
-      </td>
+      <td>{guest.name}</td>
       <td>{guest.gender}</td>
       <td>{guest.table}</td>
-      <td>
+      <td style={{ cursor: "pointer" }} onClick={() => onCheckedIn(guest.id)}>
         {guest.attended && (
           <i
             className='fas fa-check px-3'

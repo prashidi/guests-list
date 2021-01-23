@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import GuestForm from "./components/GuestForm";
 import Guests from "./components/Guests";
 import Header from "./components/Header";
 import SearchForm from "./components/SearchForm";
+
 const App = () => {
   const [guests, setGuests] = useState([
     {
@@ -52,22 +54,30 @@ const App = () => {
   }, [search, guests]);
 
   return (
-    <>
+    <Router>
       <Header />
       <div className='container py-3'>
-        <GuestForm onAdd={AddGuest} />
-        <SearchForm onSearch={setSearch} />
-        {guests.length > 0 ? (
-          <Guests
-            onDelete={deleteGuest}
-            onCheckedIn={checkedIn}
-            filteredGuests={filteredGuests}
-          />
-        ) : (
-          <p>No Guest To Show</p>
-        )}
+        <Route path='/add' component={() => <GuestForm onAdd={AddGuest} />} />
+        <Route
+          path='/'
+          exact
+          render={(props) => (
+            <>
+              <SearchForm onSearch={setSearch} />
+              {guests.length > 0 ? (
+                <Guests
+                  onDelete={deleteGuest}
+                  onCheckedIn={checkedIn}
+                  filteredGuests={filteredGuests}
+                />
+              ) : (
+                <p>No Guest To Show</p>
+              )}
+            </>
+          )}
+        />
       </div>
-    </>
+    </Router>
   );
 };
 
