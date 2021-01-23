@@ -27,7 +27,13 @@ const Header = () => {
                 Add
               </Link>
             </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/about'>
+                About
+              </Link>
+            </li>
           </ul>
+
           {/* <button className='btn btn-success my-2 my-sm-0' type='submit'>
             Add
           </button> */}

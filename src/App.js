@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import About from "./components/About";
+import Footer from "./components/Footer";
 import GuestForm from "./components/GuestForm";
 import Guests from "./components/Guests";
 import Header from "./components/Header";
@@ -56,8 +58,9 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <div className='container py-3'>
+      <div className='container main py-3'>
         <Route path='/add' component={() => <GuestForm onAdd={AddGuest} />} />
+        <Route path='/about' component={About} />
         <Route
           path='/'
           exact
@@ -76,6 +79,9 @@ const App = () => {
             </>
           )}
         />
+      </div>
+      <div className='text-center'>
+        <Footer />
       </div>
     </Router>
   );

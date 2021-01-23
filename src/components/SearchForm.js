@@ -1,10 +1,4 @@
-import { useState } from "react";
-
 const SearchForm = ({ onSearch }) => {
-  const [keyword, setKeyword] = useState("");
-  const handleChange = (e) => {
-    onSearch(keyword);
-  };
   return (
     <form className='my-lg-3'>
       <input
