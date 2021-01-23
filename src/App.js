@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GuestForm from "./components/GuestForm";
 import Guests from "./components/Guests";
 import Header from "./components/Header";
@@ -20,6 +20,9 @@ const App = () => {
       table: 2,
     },
   ]);
+  const [search, setSearch] = useState("");
+  const [filteredGuests, setFilteredGuests] = useState([]);
+
   const AddGuest = (guest) => {
     const id = Math.floor(Math.random() * 1000) + 1;
 
@@ -39,17 +42,26 @@ const App = () => {
       )
     );
   };
+
+  useEffect(() => {
+    setFilteredGuests(
+      guests.filter((guest) =>
+        guest.name.toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  }, [search, guests]);
+
   return (
     <>
       <Header />
       <div className='container py-3'>
         <GuestForm onAdd={AddGuest} />
-        <SearchForm />
+        <SearchForm onSearch={setSearch} />
         {guests.length > 0 ? (
           <Guests
-            guests={guests}
             onDelete={deleteGuest}
             onCheckedIn={checkedIn}
+            filteredGuests={filteredGuests}
           />
         ) : (
           <p>No Guest To Show</p>
