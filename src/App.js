@@ -22,12 +22,24 @@ const App = () => {
   const deleteGuest = (id) => {
     setGuests(guests.filter((guest) => guest.id !== id));
   };
+
+  const checkedIn = (id) => {
+    setGuests(
+      guests.map((guest) =>
+        guest.id === id ? { ...guest, attended: !guest.attended } : guest
+      )
+    );
+  };
   return (
     <>
       <Header />
       <div className='container py-3'>
         {guests.length > 0 ? (
-          <Guests guests={guests} onDelete={deleteGuest} />
+          <Guests
+            guests={guests}
+            onDelete={deleteGuest}
+            onCheckedIn={checkedIn}
+          />
         ) : (
           <p>No Guest To Show</p>
         )}

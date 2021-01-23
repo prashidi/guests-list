@@ -1,6 +1,6 @@
 import Guest from "./Guest";
 
-const Guests = ({ guests, onDelete }) => {
+const Guests = ({ guests, onDelete, onCheckedIn }) => {
   return (
     <>
       <div className='card'>
@@ -19,7 +19,11 @@ const Guests = ({ guests, onDelete }) => {
           </thead>
           <tbody>
             {guests.map((guest) => (
-              <Guest guest={guest} onDelete={onDelete} />
+              <Guest
+                guest={guest}
+                onDelete={onDelete}
+                onCheckedIn={onCheckedIn}
+              />
             ))}
           </tbody>
         </table>
