@@ -13,7 +13,7 @@ const Guests = ({ guests, onDelete, onCheckedIn }) => {
               <th scope='col'>Name</th>
               <th scope='col'>Gender</th>
               <th scope='col'>Table</th>
-              <th scope='col'>Checkin time</th>
+              <th scope='col'>Checked In</th>
               <th scope='col'>Actions</th>
             </tr>
           </thead>
