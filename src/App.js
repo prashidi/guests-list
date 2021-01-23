@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Guests from "./components/Guests";
+import Header from "./components/Header";
+const App = () => {
+  const [guests, setGuests] = useState([
+    {
+      id: 1,
+      name: "Patrick Rashid",
+      gender: "Male",
+      attended: true,
+      table: 1,
+    },
+    {
+      id: 2,
+      name: "Damaers Rashid",
+      gender: "Female",
+      attended: false,
+      table: 2,
+    },
+  ]);
 
-function App() {
+  const deleteGuest = (id) => {
+    setGuests(guests.filter((guest) => guest.id !== id));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <div className='container py-3'>
+        {guests.length > 0 ? (
+          <Guests guests={guests} onDelete={deleteGuest} />
+        ) : (
+          <p>No Guest To Show</p>
+        )}
+      </div>
+    </>
   );
-}
+};
 
 export default App;
