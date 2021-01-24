@@ -1,11 +1,24 @@
 import Guest from "./Guest";
 
 const Guests = ({ onDelete, onCheckedIn, guests }) => {
+  const totalGuests = guests.length;
+
+  const totalAttended = Object.values(guests).filter(
+    (guest) => guest.attended === true
+  ).length;
+
   return (
     <>
-      <div className='card'>
+      <div className='card card-horizontal'>
         <div className='card-header'>
-          Guests <span className='my-2 my-sm-0'>1/2</span>
+          <div class='row'>
+            <div class='col align-self-start'>
+              <h5 className='flex-column'>Total Checked In: {totalAttended}</h5>
+            </div>
+            <div class='col align-self-end'>
+              <h5>Total Guests: {totalGuests}</h5>
+            </div>
+          </div>
         </div>
         <table className='card-table table'>
           <thead>

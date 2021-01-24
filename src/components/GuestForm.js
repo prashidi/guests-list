@@ -19,7 +19,9 @@ const Form = ({ onAdd }) => {
       return;
     }
 
-    onAdd({ name, gender, table });
+    let attended = false;
+
+    onAdd({ name, gender, table, attended });
 
     setName("");
     setTable("");

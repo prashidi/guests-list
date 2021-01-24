@@ -4,8 +4,15 @@
       "name": "Patrick Rashidi",
       "gender": "Male",
       "table": "1",
-      "id": 1,
-      "attended": true
+      "attended": false,
+      "id": 1
+    },
+    {
+      "name": "Leanne",
+      "gender": "Female",
+      "table": "4",
+      "attended": true,
+      "id": 2
     }
   ]
 }
