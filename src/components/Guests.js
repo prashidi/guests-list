@@ -1,6 +1,6 @@
 import Guest from "./Guest";
 
-const Guests = ({ onDelete, onCheckedIn, filteredGuests }) => {
+const Guests = ({ onDelete, onCheckedIn, guests }) => {
   return (
     <>
       <div className='card'>
@@ -18,7 +18,7 @@ const Guests = ({ onDelete, onCheckedIn, filteredGuests }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredGuests.map((guest, idx) => (
+            {guests.map((guest, idx) => (
               <Guest
                 key={idx}
                 guest={guest}

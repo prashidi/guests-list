@@ -1,13 +1,13 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Form = ({ onAdd }) => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [table, setTable] = useState("");
-  const [checkedIn, setCheckedIn] = useState(false);
+  let history = useHistory();
 
   const onSubmit = (e) => {
-    e.preventDefault();
     if (!name) {
       alert("Please enter a name");
       return;
@@ -19,12 +19,13 @@ const Form = ({ onAdd }) => {
       return;
     }
 
-    onAdd({ name, gender, table, checkedIn });
+    onAdd({ name, gender, table });
 
     setName("");
     setTable("");
     setGender("");
-    setCheckedIn(false);
+
+    history.push("/");
   };
   return (
     <form className='py-3' onSubmit={onSubmit}>
@@ -60,18 +61,6 @@ const Form = ({ onAdd }) => {
           placeholder='Table'
           onChange={(e) => setTable(e.target.value)}
         />
-      </div>
-      <div className='form-check'>
-        <input
-          type='checkbox'
-          className='form-check-input'
-          value={checkedIn}
-          id='checkin'
-          onChange={(e) => setCheckedIn(e.currentTarget.checked)}
-        />
-        <label className='form-check-label' htmlFor='checkin'>
-          Checked in
-        </label>
       </div>
       <button type='submit' className='btn btn-primary'>
         Submit

@@ -1,0 +1,11 @@
+{
+  "guests": [
+    {
+      "name": "Patrick Rashidi",
+      "gender": "Male",
+      "table": "1",
+      "id": 1,
+      "attended": true
+    }
+  ]
+}

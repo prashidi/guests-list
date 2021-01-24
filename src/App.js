@@ -1,77 +1,115 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import About from "./components/About";
-import Footer from "./components/Footer";
-import GuestForm from "./components/GuestForm";
-import Guests from "./components/Guests";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+import About from "./components/About";
+import Guests from "./components/Guests";
 import SearchForm from "./components/SearchForm";
+import GuestForm from "./components/GuestForm";
 
 const App = () => {
-  const [guests, setGuests] = useState([
-    {
-      id: 1,
-      name: "Patrick Rashid",
-      gender: "Male",
-      attended: true,
-      table: 1,
-    },
-    {
-      id: 2,
-      name: "Damaers Rashid",
-      gender: "Female",
-      attended: false,
-      table: 2,
-    },
-  ]);
-  const [search, setSearch] = useState("");
-  const [filteredGuests, setFilteredGuests] = useState([]);
+  const [guests, setGuests] = useState([]);
+  const [keyword, setKeyword] = useState("");
 
-  const AddGuest = (guest) => {
-    const id = Math.floor(Math.random() * 1000) + 1;
+  useEffect(() => {
+    const getGuests = async () => {
+      const data = await fetchGuests();
+      setGuests(data);
+    };
 
-    const newGuest = { id, ...guest };
+    getGuests();
+  }, []);
+
+  //Fetch Guests
+  const fetchGuests = async () => {
+    const res = await fetch("http://localhost:5000/guests");
+
+    const data = await res.json();
+
+    return data;
+  };
+
+  //Fetch Guest
+  const fetchGuest = async (id) => {
+    const res = await fetch(`http://localhost:5000/guests/${id}`);
+
+    const data = await res.json();
+
+    return data;
+  };
+
+  //Filter Guests
+  const search = (guests) => {
+    return guests.filter(
+      (guest) => guest.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1
+    );
+  };
+
+  //Delete guest
+  const deleteGuest = async (id) => {
+    await fetch(`http://localhost:5000/guests/${id}`, { method: "DELETE" });
+    setGuests(guests.filter((guest) => guest.id !== id));
+  };
+
+  //Add guest
+
+  const addGuest = async (guest) => {
+    const res = await fetch("http://localhost:5000/guests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(guest),
+    });
+
+    const newGuest = await res.json();
 
     setGuests([...guests, newGuest]);
   };
 
-  const deleteGuest = (id) => {
-    setGuests(guests.filter((guest) => guest.id !== id));
-  };
+  //Set Check in
+  const checkin = async (id) => {
+    const guestToCheckedin = await fetchGuest(id);
+    const updatedGuest = {
+      ...guestToCheckedin,
+      attended: !guestToCheckedin.attended,
+    };
 
-  const checkedIn = (id) => {
+    const res = await fetch(`http://localhost:5000/guests/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedGuest),
+    });
+
+    const data = await res.json();
+
     setGuests(
       guests.map((guest) =>
-        guest.id === id ? { ...guest, attended: !guest.attended } : guest
+        guest.id === id ? { ...guest, attended: data.attended } : guest
       )
     );
   };
-
-  useEffect(() => {
-    setFilteredGuests(
-      guests.filter((guest) =>
-        guest.name.toLowerCase().includes(search.toLowerCase())
-      )
-    );
-  }, [search, guests]);
 
   return (
     <Router>
       <Header />
       <div className='container main py-3'>
-        <Route path='/add' component={() => <GuestForm onAdd={AddGuest} />} />
+        <Route path='/add' component={() => <GuestForm onAdd={addGuest} />} />
         <Route path='/about' component={About} />
         <Route
           path='/'
           exact
           render={(props) => (
             <>
-              <SearchForm onSearch={setSearch} />
+              <SearchForm keyword={keyword} setKeyword={setKeyword} />
+
               {guests.length > 0 ? (
                 <Guests
+                  guests={search(guests)}
                   onDelete={deleteGuest}
-                  onCheckedIn={checkedIn}
-                  filteredGuests={filteredGuests}
+                  onCheckedIn={checkin}
                 />
               ) : (
                 <p>No Guest To Show</p>

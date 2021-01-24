@@ -1,4 +1,4 @@
-const SearchForm = ({ onSearch }) => {
+const SearchForm = ({ keyword, setKeyword }) => {
   return (
     <form className='my-lg-3'>
       <input
@@ -6,7 +6,8 @@ const SearchForm = ({ onSearch }) => {
         type='search'
         placeholder='Filter'
         aria-label='Search'
-        onChange={(e) => onSearch(e.target.value)}
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
       />
     </form>
   );
